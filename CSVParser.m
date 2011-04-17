@@ -60,17 +60,22 @@ fieldNames:(NSArray *)names
         if ([separator length] == 1) {
             separatorIsSingleChar = YES;
         }
-
-        if(names) {
+        
+        if (names) {
             fieldNames = [names retain];
         }
-        else if(header) {            
-            fieldNames = [[self parseHeader] retain];
-            if (!fieldNames || ![self parseLineSeparator]) {
-                return nil;
+        
+        if (header) {
+            NSArray *headerNames = [self parseHeader];
+            
+            if (!fieldNames) {
+                fieldNames = [headerNames retain];
             }
-	}
-
+        }
+        
+        if (!fieldNames || ![self parseLineSeparator]) {
+            return nil;
+        }
     }
     
     return self;    
